@@ -1,36 +1,34 @@
 class AuthService {
-    constructor() {
-        this.baseURL = 'https://gatewayapi.telegram.org/';
-        this.authToken = 'AAFLLgAA_Y-_BcJxqsW2rwUjWYGLsBabICbFCLBY7ZqLUw';
-        this.headers = {
-    'Authorization': `Bearer ${this.authToken}`,
-    'Content-Type': 'application/json'
-};
+  constructor() {
+    this.baseURL = "https://gatewayapi.telegram.org/";
+    this.authToken = "AAFLLgAA_Y-_BcJxqsW2rwUjWYGLsBabICbFCLBY7ZqLUw";
+    this.headers = {
+      Authorization: `Bearer ${this.authToken}`,
+      "Content-Type": "application/json",
+    };
+  }
+  // Send verification code to the given phone number
+  async sendCode(phoneNumber) {
+    const url = `${this.baseURL}/sendVerificationMessage`;
+    const code = await fetch(url, {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify({
+        phone_number: phoneNumber,
+        code_length: 6,
+        ttl: 60,
+        payload: "my_payload_here",
+        callback_url: "https://my.webhook.here/auth",
+      }),
+    });
+    if (code.status !== 200) {
+      throw new Error("Failed to send verification code");
     }
-    // Send verification code to the given phone number
-    async sendCode(phoneNumber) {
-        const url = `${this.baseURL}/sendVerificationMessage`;
-        const validatePhoneNumber = this.validatePhoneNumber(phoneNumber);
-        if (!validatePhoneNumber) {
-            throw new Error('Invalid phone number format');
-        }
-        const code = await fetch(url, {
-            method: 'POST',
-            headers: this.headers,
-            body: JSON.stringify({ 
-                'phone_number': phoneNumber,      
-                'code_length': 6,              
-                'ttl': 60,     //set expiry time to 60 seconds              
-             })
-        });
-       if (code.status !== 200) {
-            throw new Error('Failed to send verification code');
-        }
-        const responseData = await code.json();
-        return responseData;
-    }
-    //send code json response 
-    /*
+    const responseData = await code.json();
+    return responseData;
+  }
+  //send code json response
+  /*
     *{
     "ok": true,
     "result": {
@@ -44,39 +42,36 @@ class AuthService {
         }
     }
 */
-    // Verify the code entered by the user
-    async verifyCode(code, request_id) {
-        const url = `${this.baseURL}/checkVerificationStatus`;
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: this.headers,
-            body: JSON.stringify({ 
-                'code': code,
-                'request_id': request_id
-                })
-            });
-        const responseData = await response.json();
-        if (response.ok !== true) {
-            throw new Error('Verification failed');
-        }
-        if (responseData.result.verification_status.status !== 'code_valid') {
-            throw new Error('Invalid verification code');
-        }
-        return responseData;
+  // Verify the code entered by the user
+  async verifyCode(code, request_id) {
+    const url = `${this.baseURL}/checkVerificationStatus`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify({
+        code: code,
+        request_id: request_id,
+      }),
+    });
+    if (response.status !== 200) {
+      throw new Error("Failed to verify code");
     }
-    // Validate phone number format
-    validatePhoneNumber(phoneNumber) {
-        const phoneRegex = /^\+\d{10,15}$/;
-        return phoneRegex.test(phoneNumber);
-    }
-    // Check if user is logged in using userPhone in local storage
-    async checkifloggedin() {
-        const user = localStorage.getItem('userPhone');
-        if (user) {
-            return "not logged in";
-        } else {
-            return user;
-        }
+    const responseData = await response.json();
+    return responseData;
+  }
+
+  //   Validate phone number format
+  validatePhoneNumber(phoneNumber) {
+    const phoneRegex = /^(0\d{8,10}|\+\d{10,15})$/;
+    return phoneRegex.test(phoneNumber);
+  }
+
+  setCookie(name, value, days) {
+    const d = new Date();
+    d.setTime(d.getTime() + days * 24 * 60 * 60 * 1000);
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  }
 }
-}
+
 export default AuthService;
