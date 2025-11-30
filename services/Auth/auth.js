@@ -1,7 +1,3 @@
-
-
-
-
 class AuthService {
     constructor() {
         this.baseURL = 'https://gatewayapi.telegram.org/';
@@ -24,10 +20,7 @@ class AuthService {
             body: JSON.stringify({ 
                 'phone_number': phoneNumber,      
                 'code_length': 6,              
-                'ttl': 60,                    
-                'payload': 'my_payload_here',  
-                'callback_url': 'https://my.webhook.here/auth'
-
+                'ttl': 60,     //set expiry time to 60 seconds              
              })
         });
        if (code.status !== 200) {
@@ -62,10 +55,13 @@ class AuthService {
                 'request_id': request_id
                 })
             });
-        if (response.status !== 200) {
-            throw new Error('Failed to verify code');
-        }
         const responseData = await response.json();
+        if (response.ok !== true) {
+            throw new Error('Verification failed');
+        }
+        if (responseData.result.verification_status.status !== 'code_valid') {
+            throw new Error('Invalid verification code');
+        }
         return responseData;
     }
     // Validate phone number format
@@ -73,6 +69,7 @@ class AuthService {
         const phoneRegex = /^\+\d{10,15}$/;
         return phoneRegex.test(phoneNumber);
     }
+    // Check if user is logged in using userPhone in local storage
     async checkifloggedin() {
         const user = localStorage.getItem('userPhone');
         if (user) {

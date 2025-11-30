@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // State variables
   let currentPhone = null; 
-  let currentRequestId = null; // CRITICAL: Needed for verifyCode()
+  let currentRequestId = null; 
 
   // --- STEP 1: Send Code via AuthService ---
   loginBtn.addEventListener("click", async () => {
@@ -57,17 +57,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- OTP Input Auto-focus Logic (Kept mostly the same) ---
+ 
   const boxes = document.querySelectorAll(".otp-box");
   boxes.forEach((box, index) => {
     box.addEventListener("input", (e) => {
-      // Move forward
       if (box.value.length === 1 && index < boxes.length - 1) {
         boxes[index + 1].focus();
       }
     });
     
-    // Optional: Move backward on Backspace
+
     box.addEventListener("keydown", (e) => {
       if (e.key === "Backspace" && box.value === "" && index > 0) {
         boxes[index - 1].focus();

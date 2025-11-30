@@ -3,7 +3,7 @@ class RoutineService {
     this.apiKey = "AIzaSyAmU7tkXFSAhpAJaB9w4RCucNPjBO6Pd5w"; 
     this.baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
   }
-
+// this is very important function, we need to build the system instruction her
   buildSystemInstruction(userInput) {
     return `  
       You are a strict fitness API. 
@@ -16,12 +16,27 @@ class RoutineService {
       4. Each day must have "day", "focus", and "exercises" (name, sets, reps).
       
       Do not use markdown. Return raw JSON only.
+      Example Response:
+      {
+        "status": "success",
+        "week_plan": [
+          {
+            "day": "Monday",
+            "focus": "Upper Body Strength",
+            "exercises": [
+              {"name": "Push-ups", "sets": 4, "reps": 12},
+              {"name": "Pull-ups", "sets": 4, "reps": 8}
+            ]
+          },
+          ...
+        ]
+      }
     `;
   }
-
+// base url is received from dissecting curl command from google gemini api playground
   async generateRoutine(userInput) {
     try {
-      console.log("Sending request to Gemini...");
+      console.log("Sending request to Gemini..."); //for debugging
       const instruction = this.buildSystemInstruction(userInput);
 
       const response = await fetch(`${this.baseUrl}?key=${this.apiKey}`, {
@@ -41,9 +56,9 @@ class RoutineService {
 
       const data = await response.json();
       console.log("Received response from Gemini:", data);
-      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text; //extract raw text. Despite careful prompt engineer, some responses may still not be valid JSON.
       
-      if (!rawText) {
+      if (!rawText) { //guard clause for early exit
         console.error("Unexpected API Response structure:", data);
         throw new Error("No content generated. Check console for details.");
       }
