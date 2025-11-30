@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MotionAI</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Top-Right Convert Button -->
+    <div>
+      <button class="convert-btn">
+        <svg class="pdf-icon" viewBox="0 0 24 24">
+          <path
+            d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM15 2v5h5"
+          />
+          <path d="M8 15v-4h2a1 1 0 0 1 0 2H8" />
+          <path d="M14 15h-2v-4h2a2 2 0 0 1 0 4z" />
+          <path d="M17 11h2a1 1 0 0 1 0 2h-2v2h2" />
+        </svg>
+        Convert to PDF
+      </button>
+    </div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="hidden">
+      <!-- Sidebar Header (Title + Toggle) -->
+      <div id="sidebarHeader">
+        <div class="sidebar-title">Motion AI</div>
+        <div id="toggleSidebar" class="hamburger">☰</div>
+      </div>
+
+      <!-- Sidebar Tabs -->
+      <a class="tab" href="./pages/login/login.html">Login</a>
+      <div class="tab" >New Chat</div>
+      <div class="tab">History</div>
+      <div class="tab">Progress</div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <div class="content">
+        <!-- 🔹 LANDING PAGE (Shown first) -->
+        <div class="landingDiv">
+          <div class="secondDiv">
+            <div class="sparkles"></div>
+            <div>
+              <h2 class="subtitle">Welcome to Motion AI</h2>
+              <h1 class="title">How can we help?</h1>
+            </div>
+
+            <div class="cards">
+              <div class="card blue">
+                <div class="card-text">
+                  Generate a PPL plan based on my experience level.
+                </div>
+              </div>
+
+              <div class="card green">
+                <div class="card-text">
+                  What’s the best split for maximizing muscle growth?
+                </div>
+              </div>
+
+              <div class="card orange">
+                <div class="card-text">
+                  Make me a weekly calorie-burning plan.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🔹 CHAT MODE (Hidden initially) -->
+        <div class="chat-mode hidden">
+          <div class="chat-container">
+            <!-- Scrollable chat messages -->
+            <div id="chatView"></div>
+
+            <!-- Fixed bottom input bar -->
+            <div class="input-wrapper">
+              <div class="input-div">
+                <textarea
+                  class="input-bar"
+                  placeholder="What do you want to see..."
+                ></textarea>
+              </div>
+
+              <div class="button-div">
+                <button class="send-btn">↑</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script type="module" src="./script.js"></script>
+  </body>
+</html>

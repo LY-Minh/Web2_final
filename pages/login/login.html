@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="../../css/login.css" />
+  </head>
+
+  <body>
+    <div class="login-wrapper">
+      <div class="login-container">
+        <!-- LEFT SIDE (FORM) -->
+        <div class="left-side">
+          <!-- LOGIN STEP -->
+          <div id="login-step">
+            <h1 class="login-title">Welcome to Motion AI</h1>
+            <p class="login-subtitle">Enter your phone number to log in</p>
+
+            <label class="input-label">Phone Number</label>
+            <input
+              type="text"
+              id="phoneInput"
+              class="input-field"
+              placeholder="+855 XX XXX XXX"
+            />
+
+            <button class="login-btn" id="loginBtn">Login</button>
+          </div>
+
+          <!-- OTP STEP (Hidden initially) -->
+          <div id="otp-step" style="display: none">
+            <h1 class="login-title">Welcome to Motion AI</h1>
+            <p class="login-subtitle">Enter the OTP to verify</p>
+
+            <div class="otp-container">
+              <input maxlength="1" class="otp-box" />
+              <input maxlength="1" class="otp-box" />
+              <input maxlength="1" class="otp-box" />
+              <input maxlength="1" class="otp-box" />
+              <input maxlength="1" class="otp-box" />
+              <input maxlength="1" class="otp-box" />
+            </div>
+
+            <button class="login-btn" id="verifyBtn">Verify OTP</button>
+          </div>
+        </div>
+
+        <!-- RIGHT SIDE (IMAGE + TEXT) -->
+        <div class="right-side">
+          <img
+            src="../../images/login.jpg"
+            alt="Login Banner"
+            class="side-image"
+          />
+
+          <div class="right-text">
+            <h2>Your AI Coach,</h2>
+            <h2><span>anytime, any muscle group.</span></h2>
+          </div>
+        </div>
+      </div>
+    </div>
+   <script type="module" src="login.js"></script>
+  </body>
+</html>
