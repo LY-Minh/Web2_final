@@ -1,5 +1,5 @@
 // 1. Import your service (Ensure the path matches your project structure)
-import AuthService from './../../services/Auth/auth.js'; 
+import AuthService from "./../../services/Auth/auth.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.getElementById("loginBtn");
@@ -7,39 +7,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginStep = document.getElementById("login-step");
   const otpStep = document.getElementById("otp-step");
   const phoneInput = document.getElementById("phoneInput");
+  const nameInput = document.getElementById("nameInput");
 
   // Initialize Service
   const authService = new AuthService();
 
   // State variables
-  let currentPhone = null; 
+  let currentPhone = null;
   let currentRequestId = null; // CRITICAL: Needed for verifyCode()
 
   // --- STEP 1: Send Code via AuthService ---
   loginBtn.addEventListener("click", async () => {
     const phone = phoneInput.value.trim();
-    
+
     // 1. Validate Format locally first
     if (!authService.validatePhoneNumber(phone)) {
       alert("Invalid phone format. Please use E.164 (e.g., +1234567890)");
       return;
     }
 
-    currentPhone = phone;
+    currentPhone = "+855" + phone.replace(/^0/, "");
     loginBtn.textContent = "Sending..."; // UI Feedback
     loginBtn.disabled = true;
 
     try {
       // 2. Call the Send Code Endpoint
-      const response = await authService.sendCode(phone);
-      
+      const response = await authService.sendCode(currentPhone);
+
       // 3. Extract Request ID (Required for Step 2)
       // Structure based on your auth.js comment: response.result.request_id
       if (response.ok && response.result) {
         currentRequestId = response.result.request_id;
         const deliveryStatus = response.result.delivery_status?.status;
 
-        console.log(`Code Sent! ID: ${currentRequestId}, Status: ${deliveryStatus}`);
+        console.log(
+          `Code Sent! ID: ${currentRequestId}, Status: ${deliveryStatus}`
+        );
 
         // Switch UI to OTP Input
         loginStep.style.display = "none";
@@ -48,7 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         throw new Error("API returned error or missing result");
       }
-
     } catch (error) {
       console.error("Login Error:", error);
       alert("Failed to send code. Please check the number and try again.");
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
         boxes[index + 1].focus();
       }
     });
-    
+
     // Optional: Move backward on Backspace
     box.addEventListener("keydown", (e) => {
       if (e.key === "Backspace" && box.value === "" && index > 0) {
@@ -90,28 +92,27 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // 1. Call Verify Endpoint
       const response = await authService.verifyCode(otp, currentRequestId);
-      
+
       // 2. Check Status
       // Structure: response.result.verification_status.status
       const status = response.result?.verification_status?.status;
 
-      if (status === 'code_valid') {
+      if (status === "code_valid") {
         console.log("Authentication Successful");
         alert("Verified Successfully!");
-        
+
         // Optional: Set a session cookie here if needed
         // authService.setCookie("authToken", "your_session_token", 7);
 
-        window.location.href = "dashboard.html";
+        window.location.href = "/index.html";
       } else {
         alert(`Verification failed: ${status}`);
         verifyBtn.disabled = false;
         verifyBtn.textContent = "Verify & Login";
         // Clear inputs on failure
-        boxes.forEach(b => b.value = "");
+        boxes.forEach((b) => (b.value = ""));
         boxes[0].focus();
       }
-
     } catch (error) {
       console.error("Verification Error:", error);
       alert("An error occurred during verification.");

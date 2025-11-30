@@ -10,6 +10,22 @@
   </head>
 
   <body>
+    <!-- Email Modal -->
+    <div id="emailModal" class="modal hidden">
+      <div class="modal-content">
+        <h2>Send to Email</h2>
+
+        <input type="text" id="emailInput" placeholder="Enter your email" />
+
+        <p id="emailError" class="error hidden">Invalid email address</p>
+
+        <div class="modal-actions">
+          <button id="cancelEmail">Cancel</button>
+          <button id="confirmEmail">Send</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Top-Right Convert Button -->
     <div>
       <button class="convert-btn">
@@ -23,6 +39,27 @@
         </svg>
         Convert to PDF
       </button>
+
+      <button class="send-email-btn">
+        <svg class="pdf-icon" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M22 6l-10 7L2 6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+
+        Send to Email
+      </button>
     </div>
 
     <!-- Sidebar -->
@@ -35,7 +72,7 @@
 
       <!-- Sidebar Tabs -->
       <a class="tab" href="./pages/login/login.html">Login</a>
-      <div class="tab" >New Chat</div>
+      <div class="tab">New Chat</div>
       <div class="tab">History</div>
       <div class="tab">Progress</div>
     </aside>

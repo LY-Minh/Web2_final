@@ -15,15 +15,24 @@
           <!-- LOGIN STEP -->
           <div id="login-step">
             <h1 class="login-title">Welcome to Motion AI</h1>
-            <p class="login-subtitle">Enter your phone number to log in</p>
+            <p class="login-subtitle">Enter your credentials to log in</p>
+            <form>
+              <label class="input-label">Name</label>
+              <input
+                type="text"
+                id="nameInput"
+                class="input-field"
+                placeholder="Name"
+              />
 
-            <label class="input-label">Phone Number</label>
-            <input
-              type="text"
-              id="phoneInput"
-              class="input-field"
-              placeholder="+855 XX XXX XXX"
-            />
+              <label class="input-label">Phone Number</label>
+              <input
+                type="text"
+                id="phoneInput"
+                class="input-field"
+                placeholder="+855 XX XXX XXX"
+              />
+            </form>
 
             <button class="login-btn" id="loginBtn">Login</button>
           </div>
@@ -61,6 +70,6 @@
         </div>
       </div>
     </div>
-   <script type="module" src="login.js"></script>
+    <script type="module" src="login.js"></script>
   </body>
 </html>
