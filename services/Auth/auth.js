@@ -1,4 +1,7 @@
 
+
+
+
 class AuthService {
     constructor() {
         this.baseURL = 'https://gatewayapi.telegram.org/';
@@ -11,6 +14,10 @@ class AuthService {
     // Send verification code to the given phone number
     async sendCode(phoneNumber) {
         const url = `${this.baseURL}/sendVerificationMessage`;
+        const validatePhoneNumber = this.validatePhoneNumber(phoneNumber);
+        if (!validatePhoneNumber) {
+            throw new Error('Invalid phone number format');
+        }
         const code = await fetch(url, {
             method: 'POST',
             headers: this.headers,
@@ -66,14 +73,13 @@ class AuthService {
         const phoneRegex = /^\+\d{10,15}$/;
         return phoneRegex.test(phoneNumber);
     }
-    setCookie(name, value, days) {
-        const d = new Date();
-        d.setTime(d.getTime() + (days*24*60*60*1000));
-        const expires = "expires="+ d.toUTCString();
-        document.cookie = name + "=" + value + ";" + expires + ";path=/";
-    }
-
-    
+    async checkifloggedin() {
+        const user = localStorage.getItem('userPhone');
+        if (user) {
+            return "not logged in";
+        } else {
+            return user;
+        }
 }
-
+}
 export default AuthService;

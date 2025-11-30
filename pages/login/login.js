@@ -98,11 +98,23 @@ document.addEventListener("DOMContentLoaded", () => {
       if (status === 'code_valid') {
         console.log("Authentication Successful");
         alert("Verified Successfully!");
-        
-        // Optional: Set a session cookie here if needed
-        // authService.setCookie("authToken", "your_session_token", 7);
+    // store token in local storage
+        const token = await fetch('http://localhost:3000/auth/telegram', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+                phoneNumber: currentPhone 
+            })
+        });
 
-        window.location.href = "dashboard.html";
+        const result = await token.json();
+         if (result.success) {
+        localStorage.setItem('token', result.token);
+        localStorage.setItem('userPhone', currentPhone);
+        console.log("Login Success! Token saved.");
+        }
+
+        window.location.href = "../home/home.html"; // Redirect to home page
       } else {
         alert(`Verification failed: ${status}`);
         verifyBtn.disabled = false;

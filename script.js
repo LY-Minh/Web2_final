@@ -69,7 +69,6 @@ if (sendBtn && textarea) {
       
       loadingBubble.remove();
 
-      // 🟢 STORE DATA: Save the week plan to our global variable
       currentRoutineData = routine.week_plan;
 
       renderWorkoutCards(routine.week_plan);

@@ -1,6 +1,6 @@
 class RoutineService {
   constructor() {
-    this.apiKey = "AIzaSyCIU293hlOHUKg1_3KM-lwpfDyfEwwd2lQ"; 
+    this.apiKey = "AIzaSyAmU7tkXFSAhpAJaB9w4RCucNPjBO6Pd5w"; 
     this.baseUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
   }
 
